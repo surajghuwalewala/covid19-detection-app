@@ -5,4 +5,4 @@ Keras
 gevent
 pillow
 h5py
-tensorflow
+tensorflow-cpu
