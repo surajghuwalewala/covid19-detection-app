@@ -12,6 +12,8 @@ ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 IMAGE_SIZE = (224, 224)
 UPLOAD_FOLDER = 'uploads'
 
+dummy_img_path = os.path.join('static','dummy.png')
+
 # model = load_model(os.path.join("model","denseNet169_combined.h5"))
 
 json_file = open(os.path.join("model","denseNet169_comb.json"), 'r')
@@ -37,7 +39,9 @@ def predict(file):
     # img = np.expand_dims(img, axis=0)
     img = img.reshape((1,224,224,3))
     probs = model.predict(img)[0]
-    output = 'Probability of Covid-19 infection:   {:.2f}%'.format(probs[0]*100)#, 'Dog': probs[1]}
+    output = 'Probability of Infection:   {:.2f}%'.format(probs[0]*100)#, 'Dog': probs[1]}
+    # output =  float("{:.2f}".format(probs[0]*100))
+    # output = "<p style='color:blue;'>Test Output</p>"
     return output
 
 app = Flask(__name__)
@@ -46,7 +50,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def template_test():
-    return render_template('home.html', label='', imagesource='file://null')
+    return render_template('home.html', label='', imagesource=dummy_img_path)
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
@@ -68,4 +72,4 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=False)
