@@ -9,6 +9,8 @@
 
   /* Full height */
   height: 100%;
+  width:100%;
+
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -16,6 +18,9 @@
   background-size: cover;
 }
 
+.progress{
+  width: 400;
+}
 
 .file {
   position: relative;
@@ -51,6 +56,7 @@
   padding: 5px;
   text-align: center;
   font-weight: bold;
+
 }
 
 /* Useless styles, just for demo styles */
@@ -59,6 +65,8 @@ body {
   font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
   color: #7F8C9A;
   background: #FCFDFD;
+  overflow: scroll;
+
 }
 h1, h2 {
   margin-bottom: 5px;

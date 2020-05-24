@@ -39,8 +39,8 @@ def predict(file):
     # img = np.expand_dims(img, axis=0)
     img = img.reshape((1,224,224,3))
     probs = model.predict(img)[0]
-    output = 'Probability of Infection:   {:.2f}%'.format(probs[0]*100)#, 'Dog': probs[1]}
-    # output =  float("{:.2f}".format(probs[0]*100))
+    # output = 'Probability of Infection:   {:.2f}%'.format(probs[0]*100)#, 'Dog': probs[1]}
+    output =  float("{:.2f}".format(probs[0]*100))
     # output = "<p style='color:blue;'>Test Output</p>"
     return output
 
@@ -52,15 +52,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def template_test():
     return render_template('home.html', label='', imagesource=dummy_img_path)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], datetime.datetime.now().strftime("%H-%M-%S")+filename
-, )
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], datetime.datetime.now().strftime("%H-%M-%S")+filename)
             file.save(file_path)
             output = predict(file_path)
     return render_template("home.html", label=output, imagesource=file_path)

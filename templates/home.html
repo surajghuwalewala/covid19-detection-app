@@ -4,44 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  <script type="text/javascript" src="{{ url_for('static',filename='js/progressbar.min.js') }}"></script>
+
   <!-- <script type="text/javascript" src="{{ url_for('static',filename='js/app.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-ui.min.js') }}"></script> -->
 
   <title>COVID-19 Detection</title>
 
-  <!-- <script type="text/javascript">
-  var predictionVal = {{label}}
-  var predOut = " "
-  document.getElementById("prediction").innerHTML =
-      function changePredictionOutput(predictionVal) {
-        if (predictionVal >= 50) {
-          document.getElementById("prediction").innerHTML = "COVID Positive";
-        }
-        else{
-          document.getElementById("prediction").innerHTML = "COVID Negative";
+  <script type="text/javascript">
 
-        }
+  function showResult(){
+    var predictionVal = {{label}}
+    var predictionHTML = document.getElementById("prediction.span");
+    predictionHTML.style = predictionVal >= 50 ? "color:red;" :  "color:green;";
+    var pred_str_pos = "COVID Positive<br>Probability of infection: "+predictionVal+"%";
+    var pred_str_neg = "COVID Negative<br>Probability of infection: "+predictionVal+"%";
+    predictionHTML.innerHTML = predictionVal >= 50 ? pred_str_pos : pred_str_neg;
+  }
 
-        return false;
-      };
-    </script> -->
+  window.onload = function(){
+    if({{label}}){
+  var bar = new ProgressBar.Line("#progress", {
+        strokeWidth: 4,
+        easing: 'easeInOut',
+        duration: 2500,
+        color: '#39D2B4',
+        trailColor: '#eee',
+        trailWidth: 1,
+        //svgStyle: {width: '100%', height: '100%'},
+        text: {
+          style: {
+            // Text color.
+            // Default: same as stroke color (options.color)
+            color: '#999',
+            right: '0',
+            //top: '30px',
+            padding: 0,
+            margin: 0,
+            transform: null
+          },
+          autoStyleContainer: false
+        },
+        from: {color: '#FFEA82'},
+        to: {color: '#ED6A5A'},
+        step: (state, bar) => {
+          let percent = Math.round(bar.value() * 100);
+          bar.setText('Analyzing... '+percent+'%');
+          if(percent == 100){ //show the result
+            bar.setText('DONE!');
+            showResult();
+          }
+        }
+      });
+
+      bar.animate(1);
+    }
+    }
+      </script>
+
+
+
 
 
 </head>
 
-<body   style="margin:10px;padding:10px">
 
-  <div class="bg-image"></div>
+
+<body   style="margin:10px;padding:10px;">
 
   <h1>DeepCOVID</h1>
   <h2>Detect COVID-19 on CT slices</h2>
   <p>Upload a CT slice image for probability of infection </p>
 
-    <form action="#" method=post enctype=multipart/form-data onsubmit="changePredictionOutput()">
+    <form action="#" method=post enctype=multipart/form-data >
       <p class="file">
         <!-- <input id="file" type="file" name="file" onchange="readURL(this);"> -->
-        <input id="file" type="file" name="file" onchange="this.form.submit()">
+        <input id="file" type="file" name="file" accept="image/x-png,image/jpeg" onchange="this.form.submit()">
         <label for="file">Upload Image</label>
       </p>
 
@@ -49,13 +88,12 @@
 
 
     <div class="imgContainer">
-        <img width="350" height="350" src="{{imagesource}}">
+        <img height="350" width="350" src="{{imagesource}}">
     </div>
-    <div class="pred" id="prediction">{{label}} </div>
+
+    <div class="pred" id="prediction"> <center><div class="progress" id="progress"></div></center> <br> <span id="prediction.span"></span> </div>
 
 
   <p class="txtcenter">This is just for research purposes <br/> Not validated by any health organization. </p>
   <p class="txtcenter copy">by <a href="https://www.linkedin.com/in/surajghuwalewala/">Suraj Ghuwalewala</a><br /></p>
-
-
 </body>
