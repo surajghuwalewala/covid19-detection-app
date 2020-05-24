@@ -10,17 +10,32 @@
   <script type="text/javascript" src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static',filename='js/jquery-ui.min.js') }}"></script> -->
 
-  <title>DeepCOVID</title>
+  <title>Khoj-COVID</title>
 
   <script type="text/javascript">
 
   function showResult(){
     var predictionVal = {{label}}
     var predictionHTML = document.getElementById("prediction.span");
-    predictionHTML.style = predictionVal >= 50 ? "color:red;" :  "color:green;";
-    var pred_str_pos = "COVID Positive<br>Probability of infection: "+predictionVal+"%";
-    var pred_str_neg = "COVID Negative<br>Probability of infection: "+predictionVal+"%";
-    predictionHTML.innerHTML = predictionVal >= 50 ? pred_str_pos : pred_str_neg;
+    // predictionHTML.style = predictionVal >= 50 ? "color:red;" :  "color:green;";
+    // var pred_str_pos = "COVID Positive<br>Probability of infection: "+predictionVal+"%";
+    // var pred_str_neg = "COVID Negative<br>Probability of infection: "+predictionVal+"%";
+
+    if (predictionVal <= 30){
+      var chanceCovid = "LOW";
+      var chanceColor = "green";
+    }else if (predictionVal > 30 && predictionVal <= 70) {
+      var chanceCovid = "MEDIUM";
+      var chanceColor = "#f58f0a";
+    }else if (predictionVal > 70) {
+      var chanceCovid = "HIGH";
+      var chanceColor = "red";
+    };
+
+    predictionHTML.style = "color:"+chanceColor+";";
+    predictionHTML.innerHTML = "Risk of COVID-19: "+chanceCovid+"<br>Probability of infection: "+predictionVal+"%";
+
+
   }
 
   window.onload = function(){
@@ -73,8 +88,8 @@
 
 <body   style="margin:10px;padding:10px;">
 
-  <h1>DeepCOVID</h1>
-  <h3>Deep Learning based COVID19 detection on Lung CT scans</h3>
+  <h1>Khoj-COVID</h1>
+  <h3>Using advance AI for COVID19 detection on Lung CT scans</h3>
   <p>Upload a Lung CT slice image </p>
 
     <form action="#" method=post enctype=multipart/form-data >
@@ -94,6 +109,6 @@
     <div class="pred" id="prediction"> <center><div class="progress" id="progress"></div></center> <br> <span id="prediction.span"></span> </div>
 
 
-  <p class="txtcenter">This is just for research purposes <br/> Not validated by any health organization. </p>
-  <p class="txtcenter copy">by <a href="https://www.linkedin.com/in/surajghuwalewala/">Suraj Ghuwalewala</a><br /></p>
+  <p class="txtcenter">This is just for research purposes & a WORK IN PROGRESS...  <br/> Not validated by any health organization. </p>
+  <p class="txtcenter copy">by <a href="https://www.linkedin.com/in/surajghuwalewala/" target="_blank">Suraj Ghuwalewala</a> & <a href="http://sagihaider.com/" target="_blank">Dr Haider Raza</a><br /></p>
 </body>
