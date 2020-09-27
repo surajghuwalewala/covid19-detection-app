@@ -7,15 +7,16 @@ import numpy as np
 import datetime
 
 
-
+## Extensions for image upload
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
-IMAGE_SIZE = (224, 224)
+IMAGE_SIZE = (224, 224) ## Change according to model
+
 UPLOAD_FOLDER = 'uploads'
 
+## Load the default image
 dummy_img_path = os.path.join('static','dummy.png')
 
-# model = load_model(os.path.join("model","denseNet169_combined.h5"))
-
+## Read model weight files
 json_file = open(os.path.join("model","denseNet169_comb.json"), 'r')
 loaded_model_json = json_file.read()
 json_file.close()
