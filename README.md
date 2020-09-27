@@ -7,3 +7,5 @@
 `python app.py`
 - Open browser and go to <br>
 `localhost:8080`
+--- 
+The codes for building the deep learning model will be released soon.
